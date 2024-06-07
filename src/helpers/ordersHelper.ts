@@ -13,7 +13,7 @@ export async function createOrder(products: number[], token: string) {
         });
         const orders = await res.json();
         return orders;
-    } catch (error: any) {
+    } catch (error: any) {    
         throw new Error(error);
     }
 }
