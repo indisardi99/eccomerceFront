@@ -21,7 +21,7 @@ export const AuthProvider: React.FC<IProvider> = ({ children }) => {
 
     useEffect(() => {
         if (userData) {
-            localStorage.setItem("userSession", JSON.stringify({ token: userData.token, userData: userData }));
+            localStorage.setItem("userSession", JSON.stringify({ token: userData.token, userData: userData.userData }));
         }
     }, [userData]);
 

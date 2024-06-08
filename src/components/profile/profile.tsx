@@ -7,10 +7,16 @@ import Link from 'next/link';
 const Profile = () => {
      
     const [userData, setUserData] = useState<IUserSession>()
-   
+
+    // useEffect(() => {
+    //     const userData = localStorage.getItem("userSession"); 
+    //     setUserData(userData ? JSON.parse(userData) : null);
+    // }, []);
+
     useEffect(()=>{
         if (typeof window !== "undefined" && window.localStorage) {
           const userData = localStorage.getItem("userSession");
+          console.log(userData)
           setUserData(userData ? JSON.parse(userData) : null);
         }
       }, []);

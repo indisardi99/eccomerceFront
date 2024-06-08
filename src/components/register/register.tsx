@@ -35,15 +35,21 @@ const router = useRouter();
   }
 
   const handleSubmit = async (event : React.FormEvent<HTMLFormElement>) => {
-     event.preventDefault()
-     try {
-       const res = await register(dataUser)
-       alert("You have successfully register, pleace, login")
-       router.push("/login")
-     } catch (error:any) {
-        throw new Error(error)
-     }
+    event.preventDefault();
+    let errors = validateRegister(dataUser);
+    setErrorUser(errors);
+    if (Object.values(errors).some(error => error !== '')) {
+       return;
     }
+    try {
+       const res = await register(dataUser);
+       alert("You have successfully registered, please login");
+       router.push("/login");
+    } catch (error:any) {
+       console.error(error);
+       alert("An error occurred during registration. Please try again.");
+    }
+ }
 
   useEffect(()=>{
     let errors = validateRegister(dataUser)

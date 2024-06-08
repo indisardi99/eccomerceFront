@@ -20,6 +20,8 @@ const Login = () => {
     password: ""
 });
 
+const [redirecting, setRedirecting] = useState(false);
+
 
   const handleChange = (event : React.ChangeEvent<HTMLInputElement>) => {
     setDataUser ({
@@ -29,22 +31,22 @@ const Login = () => {
   }
 
 
-    const handleSubmit = async (event : React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault()
-        try {
-          const res = await login(dataUser)
-          const {token, user} = res ;
-
-            setUserData({token, userData: user })
-           alert("You have successfully login")
-          router.push("/")
-          // window.location.reload();
-        
-        } catch (error:any) {
-           throw new Error(error)
-        }
-       }
-
+  const handleSubmit = async (event : React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    try {
+        const res = await login(dataUser);
+        const { token, user } = res;
+        localStorage.setItem("user", JSON.stringify(user)); 
+        setUserData({ token, userData: user });
+        alert("You have successfully logged in");
+        router.push("/");
+        setTimeout(() => {
+            window.location.reload();
+        }, 100);
+    } catch (error:any) {
+        throw new Error(error);
+    }
+}
   useEffect(()=>{
     let errors = validateLogin(dataUser)
     setErrorUser(errors)

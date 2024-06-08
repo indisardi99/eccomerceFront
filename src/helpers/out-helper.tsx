@@ -1,5 +1,10 @@
 import {IValidateLogin, IValidateRegister } from "@/types"
-const apiUrl = process.env.NEXT_PUBLIC_API_URL
+
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+if (!apiUrl) {
+    console.error("API URL is not defined");
+    throw new Error("API URL is not defined");
+}
 
     export async function register(userData: IValidateRegister) {
         try{
@@ -7,7 +12,7 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL
                     method: 'POST',
                     headers:{
                         "Content-Type": "application/json",
-                        'ngrok-skip-browser-warning': 'true',
+                        // 'ngrok-skip-browser-warning': 'true',
                     },
                     body: JSON.stringify(userData)
                 })
@@ -15,14 +20,16 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL
                 return (
                     res.json()
                 )
-            }else{
-                alert ("Failed to register")
-                throw new Error ("Failed to register")
+            } else {
+                const errorMessage = await res.text(); 
+                console.error("Failed to register:", errorMessage);
+                throw new Error("Failed to register: " + errorMessage);
             }
-        }catch (error:any) {
-                throw new Error(error)
+        } catch (error:any) {
+            console.error("Error registering:", error);
+            throw new Error("Error registering: " + error.message);
         }
-    } 
+    }
 
     export async function login (userData: IValidateLogin) {
         try{    
